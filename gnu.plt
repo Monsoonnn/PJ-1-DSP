@@ -8,7 +8,7 @@
 #    	gnuplot home:     http://www.gnuplot.info
 #    	faq, bugs, etc:   type "help FAQ"
 #    	immediate help:   type "help"  (plot window: hit 'h')
-# set terminal windows 0 color solid butt enhanced standalone
+# set terminal wxt 0 size 1600, 1200 enhanced
 # set output
 unset clip points
 set clip one
