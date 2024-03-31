@@ -145,21 +145,24 @@ vector<pair<int, double> > generateSineWave(int numSamples, double frequency, do
 
 //sinh day ham mu~
 
-vector<pair<int, double> > generateExponentialFunction(double base) {
-    
-    vector<pair<int, double>> exponentialValues; 
-    base = abs(base);
-    
-	for (int i = startIndex; i <= endIndex; ++i) {
-         if(i >= 0){
-	        	exponentialValues.push_back({i,pow(base, i)});  
-			}else{
-				exponentialValues.push_back({i,0});  
-			}
-    }
-   
+struct Complex {
+  double real;
+  double imag;
+};
 
-    return exponentialValues;
+vector<pair<int, Complex>> generateComplexExponential(double base) {
+  vector<pair<int, Complex>> result;
+
+  for (int x = startIndex; x <= endIndex; ++x) {
+    double angle = x;  // Combined exponent for complex case
+    Complex y;
+    y.real = pow(base, cos(angle));
+    y.imag = pow(base, sin(angle));
+    // * (base < 0 ? -1 : 1); // Handle negative base for imaginary part
+    result.push_back(make_pair(x, y));
+  }
+
+  return result;
 }
 
 // dao nguoc thoi gian 
@@ -229,6 +232,14 @@ void writeToFile(const string& filename, vector<pair<int,double>> waveform) {
     file.close();
 }
 
+void writeToFile2( const string& filename, vector<pair<int, Complex>>& waveform) {
+  ofstream outfile(filename);
+  for (auto& a : waveform) {
+    outfile << a.first << " " << a.second.real << " " << a.second.imag << endl;
+  }
+  outfile.close();
+}
+
 vector<pair<int, double>> convolution(const vector<pair<int, double>>& signal1, const vector<pair<int, double>>& signal2) {
     
     int length = signal1.size() + signal2.size() - 1;
@@ -279,7 +290,7 @@ int main() {
 
 //	vector<pair<int,double>> waveform = generateUnitStepFunction();//ham sinh day nhay don vi
 
-//	vector<pair<int,double>> waveform = generateExponentialFunction(baseValue);//ham mu
+//	vector<pair<int,complex>> waveform = generateComplexExponential(baseValue);//ham mu
 	
 //	vector<pair<int,double>> waveform = generateRealExponentialFunction(baseValue); // sinh day ham mu thuc
 
@@ -295,18 +306,21 @@ int main() {
 	
 //	finalSignal = upsample(waveform, 2);
 
+
+
 	finalSignal = convolution(waveformA,waveformB);
 	
 	
   writeToFile(filename, finalSignal); // viet ra file
+  writeToFile2(filename, waveform);	
   	
     cout << "Updated " << filename << endl;
     
     //Neu gap loi "'gnuplot' is not recognized as an internal or external command" 
-    //Mo Control Panel trÍn Windows v‡ di den System and Security > System > Advanced system settings.
-	//Trong hop thoai System Properties, chon tab Advanced, v‡ nhap v‡o n˙t Environment Variables.
-	//Trong phan System Variables, tÏm bien mÙi tru?ng cÛ ten PATH v‡ chon Edit.
-	//ThÍm duung dan den thu muc c‡i dat Gnuplot v‡o cuoi bien PATH (C:\Program Files\gnuplot\bin).
+    //Mo Control Panel tr√™n Windows v√† di den System and Security > System > Advanced system settings.
+	//Trong hop thoai System Properties, chon tab Advanced, v√† nhap v√†o n√∫t Environment Variables.
+	//Trong phan System Variables, t√¨m bien m√¥i tru?ng c√≥ ten PATH v√† chon Edit.
+	//Th√™m duung dan den thu muc c√†i dat Gnuplot v√†o cuoi bien PATH (C:\Program Files\gnuplot\bin).
 	//Nhap OK de luu thay doi 
 	
     // Dong lenh nay dung de hien plot sau khi chay ct ma khong can mo gnuplot
