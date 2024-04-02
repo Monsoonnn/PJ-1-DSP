@@ -57,9 +57,9 @@ void drawPlot(){
 int main() {
     vector<pair<int, double>> waveform;
     
-    // Thêm các c?p giá tr? (index, amplitude) vào vector
+    // Khoi tao gia tri cho vector
     for (int i = 0; i <= 20; ++i) {
-        waveform.push_back({i, 10.0}); // Gi? s? amplitude c? d?nh là 10.0
+        waveform.push_back({i, 10.0}); 
     }
     
     double fadeInRatio = 0.2; // 20% fade in

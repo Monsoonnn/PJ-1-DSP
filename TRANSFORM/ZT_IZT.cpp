@@ -74,7 +74,10 @@ void plotZT(string filename) {
         fprintf(gnuplotPipe, "set xrange [-300:300]\n");
         fprintf(gnuplotPipe, "set yrange [-300:300]\n");
         fprintf(gnuplotPipe, "set grid\n");
+        fprintf(gnuplotPipe, "set arrow 1 from 0,-300 to 0,300 nohead lt 8 lw 1\n");
+		fprintf(gnuplotPipe, "set arrow 2 from -300,0 to 300,0 nohead lt 8 lw 1\n");
         fprintf(gnuplotPipe, "plot '%s' using 1:2 with points title 'SO PHUC\n", filename.c_str());
+       
         fflush(gnuplotPipe);
         
         pclose(gnuplotPipe);

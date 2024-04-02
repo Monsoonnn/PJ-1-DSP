@@ -138,7 +138,7 @@ set ylabel "x(N)"
 set ylabel  font "" textcolor lt -1 rotate
 set y2label "" 
 set y2label  font "" textcolor lt -1 rotate
-set yrange [ -20 :20 ] noreverse writeback noextend
+set yrange [ -15 :15 ] noreverse writeback noextend
 set y2range [ * : * ] noreverse writeback noextend
 set zlabel "" 
 set zlabel  font "" textcolor lt -1 norotate

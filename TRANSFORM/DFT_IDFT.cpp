@@ -108,6 +108,7 @@ void writeFileIDFT(vector<pair<int, double>> reconstructed_waveform){
 
 
 int main() {
+	
     vector<pair<int, double>> waveform = {
         {0, 1.0}, {1, 4.0}, {2, 9.0}, {3, 16.0}, {4, 25.0},
         {5, 36.0}, {6, 49.0}, {7, 64.0}, {8, 81.0}

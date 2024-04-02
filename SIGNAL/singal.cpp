@@ -166,7 +166,7 @@ vector<pair<int, double> > generateExponentialFunction(double base) {
 
 vector<pair<int, double> > timeReversal(const vector<pair<int, double>>& signal) {
    
-    vector<pair<int, double>> reversedSignal(signal.size());
+    vector<pair<int, double>> reversedSignal;
 
     for (const auto& pair : signal) {
         
@@ -271,9 +271,7 @@ int main() {
 		waveformB.push_back({i-1,1});
 	}
 	
-	
-
-// 	vector<pair<int,double>> waveform = generateSquareWave(amplitude, halfPeriod);// sinh day chu nhat
+ 	vector<pair<int,double>> waveform = generateSquareWave(amplitude, halfPeriod);// sinh day chu nhat
 
 //	vector<pair<int,double>> waveform = generateUnitImpulseFunction(); // sinh day xung don vi
 
@@ -297,8 +295,8 @@ int main() {
 
 	finalSignal = convolution(waveformA,waveformB);
 	
-	
-  writeToFile(filename, finalSignal); // viet ra file
+ 	writeToFile("convolution.txt", finalSignal);
+ 	writeToFile(filename, finalSignal); // viet ra file
   	
     cout << "Updated " << filename << endl;
     
