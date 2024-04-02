@@ -1,0 +1,18 @@
+Đây là bài tập PJ1 lập trình âm thanh
+Bài tập được chia thành các folder sau:
+TRANSFORM: chứa các file cài đặt các phép biến đổi DFT và ZT
+EFFECTS: chứa các file cài đặt các hiệu ứng âm thanh 
+FILLTER: chứa các file cài đặt các bộ lọc tín hiệu âm thanh
+SIGNAL: chưa file  cài đặt singal.cpp 
+-> bao gồm mô phỏng các hàm cài đặt mô hình các dãy tín hiệu, các hàm thực hiện các phép tính giữa 2 dãy tính hiệu
+///////////////////////////////////
+CÁC FOLDER TRÊN ĐỀU CÓ TESTCASE Ở TRONG
+///////////////////////////////////
+Để có thể chạy được các file cpp, cần cài đặt gnuplot.info
+http://www.gnuplot.info/
+Đồng thời thực hiện các bước sau
+1. Mo Control Panel trên Windows và di den System and Security > System > Advanced system settings.
+2. Trong hop thoai System Properties, chon tab Advanced, và nhap vào nút Environment Variables.
+3. Trong phan System Variables, tìm bien môi tru?ng có ten PATH và chon Edit.
+4. Them duung dan den thu muc cai dat Gnuplot vào cuoi bien PATH (C:\Program Files\gnuplot\bin).
+5. Nhap OK de luu thay doi 

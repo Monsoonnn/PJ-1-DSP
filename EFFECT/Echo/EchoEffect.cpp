@@ -1,67 +1,72 @@
-#include <iostream>
-#include <algorithm>
+#include<iostream>
+#include<math.h>
 #include <fstream>
+#include <sstream>
 #include <vector>
-#include <cmath>
-#include <cstdlib>
-using namespace std;
+#include <random>
 
+std::vector<double> generateData(int size) {
+  std::vector<double> data(size);
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_real_distribution<double> noise(-0.1, 0.1);
 
-vector<double> echoEffect(const vector<double>& data, int delay, double echoFactor) {
-  if (delay <= 0 || delay >= data.size()) {
-    return data; 
+  // Generate exponentially decaying signal with random noise
+  for (int i = 0; i < size; ++i) {
+    data[i] = std::exp(-0.1 * i) + noise(gen);
   }
 
-  vector<double> echoedData(data.size());
+  return data;
+}
+std::vector<double> echoEffect(const std::vector<double>& data, int delay, double echoFactor) {
+  if (delay <= 0 || delay >= data.size()) {
+    return data;
+  }
+
+  std::vector<double> echoedData(data.size());
 
   for (size_t i = 0; i < data.size(); ++i) {
     echoedData[i] = data[i];
     if (i >= delay) {
-      echoedData[i] += echoFactor * data[i - delay]; 
+      echoedData[i] += echoFactor * data[i - delay];
     }
   }
 
   return echoedData;
 }
 
-//echo
-
-// vector<double> echo(const vector<double>& signal, double delay, double gain) {
-//   int signal_length = signal.size();
-//   vector<double> echoed_signal(signal_length);
-
-//   for (int i = 0; i < signal_length; ++i) {
-//     echoed_signal[i] = signal[i];
-//   }
-
-//   for (int i = delay; i < signal_length; ++i) {
-//     echoed_signal[i] += gain * signal[i - delay];
-//   }
-//   return echoed_signal;
-// }
-
-  void writeToFile(const string& filename, vector<double> waveform) {
-    ofstream file(filename);
-    if (!file.is_open()) {
-        cerr << "Not Found " << filename << endl;
-        return;
+void writeDataToText(const std::vector<double>& data, const std::string& filename, bool append = false) {
+  std::ofstream outfile;
+  if (append) {
+    outfile.open(filename, std::ios::app);  // Open in append mode
+  } else {
+    outfile.open(filename);
+  }
+  if (outfile.is_open()) {
+    for (double value : data) {
+      outfile << value << " ";  // Add space after each value
     }
-	for(auto a: waveform){
-		file << a << endl;
-	}
-
-    file.close();
+    outfile << std::endl;
+    outfile.close();
+  } else {
+    std::cerr << "Error opening file: " << filename << std::endl;
+  }
 }
 
-
-int main(){
-    vector<double> originalData = {1.0, 2.5, 3.8, 4.2, 1.9, 0.7, 5.4, 2.3, 3.1, 6.5,3.7, 1.2, 4.8, 2.9, 3.6,1.5, 4.1, 0.8, 3.2, 2.9, 4.3, 1.6};
-    int delay = 2; 
-    double echoFactor = 0.5; //0 -> 1
-    
-    vector<double> waveform = echoEffect(originalData, delay, echoFactor);
-    writeToFile("EchoData.txt",waveform);
+int main() {
+  // Sample data
+  std::vector<double> data = generateData(10);
   
-    return 0;
 
+  // Apply echo effect
+  int delay = 10;
+  double echoFactor = 0.5;
+  std::vector<double> echoedData = echoEffect(data, delay, echoFactor);
+
+  // Write data to text file
+  const std::string filename = "data.txt";
+  writeDataToText(data, filename);
+  writeDataToText(echoedData, filename,true);  
+
+  return 0;
 }

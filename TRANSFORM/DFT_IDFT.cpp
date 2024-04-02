@@ -97,8 +97,8 @@ void drawIDFTplot(){
 }
 
 //Viet IDFT data ra file
-void writeFileIDFT(vector<pair<int, double>> reconstructed_waveform){
-	ofstream idft_file("./DFT_IDFT/idft_data.txt");
+void writeFileIDFT(vector<pair<int, double>> reconstructed_waveform, string filename){
+	ofstream idft_file(filename);
     for (size_t i = 0; i < reconstructed_waveform.size(); ++i) {
         idft_file << reconstructed_waveform[i].first << "\t" << reconstructed_waveform[i].second << endl;
     }
@@ -113,7 +113,7 @@ int main() {
         {0, 1.0}, {1, 4.0}, {2, 9.0}, {3, 16.0}, {4, 25.0},
         {5, 36.0}, {6, 49.0}, {7, 64.0}, {8, 81.0}
     };
-
+	writeFileIDFT(waveform,"./DFT_IDFT/DFT_input.txt");
 	//DFT
     vector<complex<double>> spectrum = DFT(waveform);
 
@@ -124,7 +124,7 @@ int main() {
 	vector<pair<int, double>> reconstructed_waveform = IDFT(spectrum);
 	
 	//Viet IDFT data ra file
-	writeFileIDFT(reconstructed_waveform);
+	writeFileIDFT(reconstructed_waveform,"./DFT_IDFT/idft_data.txt");
     
     
     // GNUPLOT

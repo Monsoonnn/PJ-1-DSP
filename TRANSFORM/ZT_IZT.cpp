@@ -52,8 +52,8 @@ void WriteZTToFile(const vector<complex<double>>& Z) {
 }
 
 // write IZT to file
-void WriteIZTToFile(const vector<pair<int, double>>& IZ) {
-    ofstream izt_file("./ZT_IZT/IZT_data.txt");
+void WriteIZTToFile(const vector<pair<int, double>>& IZ, string filename) {
+    ofstream izt_file(filename);
     for (size_t i = 0; i < IZ.size(); ++i) {
         izt_file << IZ[i].first << "\t" << IZ[i].second << endl;
     }
@@ -109,7 +109,7 @@ int main() {
         {0, 1.0}, {1, 4.0}, {2, 9.0}, {3, 16.0}, {4, 25.0},
         {5, 36.0}, {6, 49.0}, {7, 64.0}, {8, 81.0}
     };
-
+	WriteIZTToFile(waveform,"./ZT_IZT/ZT_input.txt");
     // TINH TOAN ZT
     vector<complex<double>> ZT = ZTransform(waveform);
 
@@ -120,7 +120,7 @@ int main() {
     vector<pair<int, double>> IZT = InverseZTransform(ZT);
 
     // GHI DU LIEU IZT VAO FILE
-    WriteIZTToFile(IZT);
+    WriteIZTToFile(IZT,"./ZT_IZT/IZT_data.txt");
 
 	//TAO DUONG DAN FILE .txt cho ZT va IZT
 	string ZTfile = "./ZT_IZT/ZT_data.txt";

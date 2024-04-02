@@ -1,0 +1,4 @@
+sampleRate = 500
+centerFreq = 50
+bandwidth = 20
+N = 20

@@ -15,8 +15,27 @@ int endIndex = 12;
 int startIndexF = 0;
 string filename = "output.txt";
 constexpr double PI = 3.14159265358979323846;
-// sinh day chu nhat
 
+struct Complex {
+  double real;
+  double imag;
+};
+// Hàm nm?
+vector<pair<int, Complex>> generateComplexExponential(double base) {
+  vector<pair<int, Complex>> result;
+
+  for (int x = startIndex; x <= endIndex; ++x) {
+    double angle = x;  // Combined exponent for complex case
+    Complex y;
+    y.real = pow(base, cos(angle));
+    y.imag = pow(base, sin(angle));
+    // * (base < 0 ? -1 : 1); // Handle negative base for imaginary part
+    result.push_back(make_pair(x, y));
+  }
+
+  return result;
+}
+// sinh day chu nhat
 vector<pair<int, double>> generateSquareWave(double amplitude, int period) {
     vector<pair<int, double>> waveform;
 
@@ -215,6 +234,93 @@ vector<pair<int, double>> upsample(vector<pair<int, double>> signal, int L) {
     return upsampledSignal;
 }
 
+// phep cong hai day tin hieu
+vector<pair<int, double>> addSignals(const vector<pair<int, double>> &signal1, const vector<pair<int, double>> &signal2)
+{
+   
+    int minX = min(signal1.front().first, signal2.front().first);
+    int maxX = max(signal1.back().first, signal2.back().first);
+
+   
+    vector<int> xValues;
+    for (int i = minX; i <= maxX; ++i)
+    {
+        xValues.push_back(i);
+    }
+
+    
+    vector<pair<int, double>> result;
+
+    
+    for (int x : xValues)
+    {
+        double y = 0.0;
+
+        
+        auto it1 = find_if(signal1.begin(), signal1.end(), [x](const pair<int, double> &p)
+                           { return p.first == x; });
+        if (it1 != signal1.end())
+        {
+            y += it1->second;
+        }
+
+        
+        auto it2 = find_if(signal2.begin(), signal2.end(), [x](const pair<int, double> &p)
+                           { return p.first == x; });
+        if (it2 != signal2.end())
+        {
+            y += it2->second;
+        }
+
+        result.push_back({x, y});
+    }
+
+    return result;
+}
+
+vector<pair<int, double>> subSignals(const vector<pair<int, double>> &signal1, const vector<pair<int, double>> &signal2)
+{
+   
+    int minX = min(signal1.front().first, signal2.front().first);
+    int maxX = max(signal1.back().first, signal2.back().first);
+
+   
+    vector<int> xValues;
+    for (int i = minX; i <= maxX; ++i)
+    {
+        xValues.push_back(i);
+    }
+
+    
+    vector<pair<int, double>> result;
+
+    
+    for (int x : xValues)
+    {
+        double y = 0.0;
+
+        
+        auto it1 = find_if(signal1.begin(), signal1.end(), [x](const pair<int, double> &p)
+                           { return p.first == x; });
+        if (it1 != signal1.end())
+        {
+            y += it1->second;
+        }
+
+        
+        auto it2 = find_if(signal2.begin(), signal2.end(), [x](const pair<int, double> &p)
+                           { return p.first == x; });
+        if (it2 != signal2.end())
+        {
+            y -= it2->second;
+        }
+
+        result.push_back({x, y});
+    }
+
+    return result;
+}
+
 // Viet ra file output.txt
 void writeToFile(const string& filename, vector<pair<int,double>> waveform) {
     ofstream file(filename);
@@ -244,6 +350,13 @@ vector<pair<int, double>> convolution(const vector<pair<int, double>>& signal1, 
 
     return result;
 }
+void writeToFile2( const string& filename, vector<pair<int, Complex>>& waveform) {
+  ofstream outfile(filename);
+  for (auto& a : waveform) {
+    outfile << a.first << " " << a.second.real << " " << a.second.imag << endl;
+  }
+  outfile.close();
+}
 
 
 
@@ -271,15 +384,15 @@ int main() {
 		waveformB.push_back({i-1,1});
 	}
 	
- 	vector<pair<int,double>> waveform = generateSquareWave(amplitude, halfPeriod);// sinh day chu nhat
+// 	vector<pair<int,double>> waveform = generateSquareWave(amplitude, halfPeriod);// sinh day chu nhat
 
 //	vector<pair<int,double>> waveform = generateUnitImpulseFunction(); // sinh day xung don vi
 
 //	vector<pair<int,double>> waveform = generateUnitStepFunction();//ham sinh day nhay don vi
 
-//	vector<pair<int,double>> waveform = generateExponentialFunction(baseValue);//ham mu
+//	vector<pair<int, Complex>> waveform = generateComplexExponential(baseValue);//ham mu
 	
-//	vector<pair<int,double>> waveform = generateRealExponentialFunction(baseValue); // sinh day ham mu thuc
+//	vector<pair<int,double>> waveform = generateRealExponentialFunction(baseValue);//ham mu; // sinh day ham mu thuc
 
 // 	vector<pair<int,double>> waveform = generateSineWave(numSamples,frequency, amplitude);//ham sin
 
@@ -293,9 +406,12 @@ int main() {
 	
 //	finalSignal = upsample(waveform, 2);
 
-	finalSignal = convolution(waveformA,waveformB);
+//	finalSignal = convolution(waveformA,waveformB);
 	
- 	writeToFile("convolution.txt", finalSignal);
+//	finalSignal = addSignals(waveformA, waveformB);
+
+	finalSignal = subSignals(waveformA, waveformB);
+	
  	writeToFile(filename, finalSignal); // viet ra file
   	
     cout << "Updated " << filename << endl;

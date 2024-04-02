@@ -72,6 +72,7 @@ int main() {
     applyFadeOut(waveformFadeOut, fadeOutRatio);
     
     // Viet ra file du lieu fade in va fade out
+    writeWaveformToFile(waveform, "input_fade.txt");
     writeWaveformToFile(waveformFadeIn, "output_waveform_fade_in.txt");
     writeWaveformToFile(waveformFadeOut, "output_waveform_fade_out.txt");
     

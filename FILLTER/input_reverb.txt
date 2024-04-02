@@ -1,0 +1,2 @@
+delaySamples = 50
+decay = 0.5

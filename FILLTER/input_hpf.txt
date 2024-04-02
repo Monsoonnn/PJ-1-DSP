@@ -1,0 +1,3 @@
+sampleRate = 500
+cutoffFreq = 50
+N = 20
